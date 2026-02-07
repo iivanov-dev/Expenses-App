@@ -1,0 +1,97 @@
+body{
+    width: 100%;
+    padding: 30px;
+    font-family: "Inter", sans-serif;
+    font-size: 32px;
+    line-height: 39px;
+    font-weight: 400;
+    background: #fff;
+}
+
+.wrapper{
+    margin: 0 auto;
+    width: 1000px;
+    max-width: 100%;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+button:hover{
+    opacity: 0.5;
+}
+
+h1 {
+    font-weight: 700;
+    line-height: 39px;
+    font-size: 32px;
+}
+
+ol {
+	list-style: decimal;
+    list-style-position: inside;
+}
+
+.label{font-weight: 700;}
+
+.rub::after{content: " RUB";}
+
+.expenses{
+    margin-top: 28px;
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 28px;
+    row-gap: 43px;
+
+    align-items: center;
+}
+
+.expensesInput{
+    width: 484px;
+}
+
+.moneyInput {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 9px;
+    border: 1px solid #000;
+    line-height: 58px;
+}
+
+.moneyInput__input{
+    width: 100%;
+    border: none;
+    font-size: inherit;
+    /* line-height: 58px; */
+}
+
+.moneyInput__currency{
+    padding-left: 20px; 
+}
+
+.moneyInput__input:focus-visible{
+outline: none;
+}
+
+.addButton{
+    display: block;
+    padding: 10px 110px;
+    font-size: inherit;
+    color: #fff;
+    background-color: #0094ff;
+    border: none;
+    line-height: 58px;
+}
+
+.stats {width: 484px;}
+.stats_total{margin-top: 13px;}
+.stats_status{margin-top: 35px;}
+.stats_statusText_positive{color: #039000;}
+.history{width:484px}
+.history__list{margin-top: 21px;}
