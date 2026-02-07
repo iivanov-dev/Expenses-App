@@ -93,5 +93,6 @@ outline: none;
 .stats_total{margin-top: 13px;}
 .stats_status{margin-top: 35px;}
 .stats_statusText_positive{color: #039000;}
+.stats_statusText_negative{color: red;}
 .history{width:484px}
 .history__list{margin-top: 21px;}

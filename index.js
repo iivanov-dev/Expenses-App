@@ -96,9 +96,11 @@ function renderStatus(sum){
 
     if (sum > LIMIT) {
         statusNode.innerText = STATUS_OUT_LIMIT;
-        statusNode.classList.add(STATUS_OUT_LIMIT_OF_NAME);
+        statusNode.className = "stats_statusText_negative";
+        // statusNode.classList.add(STATUS_OUT_LIMIT_OF_NAME);
     } else {
         statusNode.innerText = STATUS_IN_LIMIT;
-        statusNode.classList.remove(STATUS_OUT_LIMIT_OF_NAME);
+        statusNode.className = "stats_statusText_positive";
+        // statusNode.classList.remove(STATUS_OUT_LIMIT_OF_NAME);
     }
 };
