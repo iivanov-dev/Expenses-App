@@ -47,7 +47,7 @@ ol {
     column-gap: 28px;
     row-gap: 43px;
 
-    align-items: center;
+    /* align-items: center; */
 }
 
 .expensesInput{
@@ -89,10 +89,17 @@ outline: none;
     line-height: 58px;
 }
 
-.stats {width: 484px;}
+.stats {
+    width: 484px;
+    /* align-self: flex-start; */
+}
 .stats_total{margin-top: 13px;}
 .stats_status{margin-top: 35px;}
 .stats_statusText_positive{color: #039000;}
 .stats_statusText_negative{color: red;}
 .history{width:484px}
-.history__list{margin-top: 21px;}
+.history__title{
+    /* align-self: flex-start;     */
+    margin-bottom: 21px;
+}
+/* .history__list{margin-top: 21px;} */
