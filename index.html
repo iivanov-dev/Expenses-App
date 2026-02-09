@@ -25,14 +25,35 @@
                     min="1"
                     />
             </div>
+
+            <select class="js-category-select category-select">
+                <option 
+                    hidden 
+                    disabled 
+                    selected 
+                    value="Choose the category"
+                    >
+                    Choose the category
+                </option>
+                <option value="Products">Products</option>
+                <option value="Cafe-restaurant">Cafe and restaurant</option>
+                <option value="Apartment">Apartment</option>
+                <option value="Car">Car</option>
+            </select>
+
         </div>
 
-        <button class="js-expense-button addButton"> Add Expense</button>
+        <button class="js-expense-button add-button"> Add Expense</button>
 
         <div class="stats">
             <div class="stats__limit">
                 <span class="label">Limit:</span>
                 <span class="js-limit rub">100</span>
+                <button class="js-button-change-limit button-change-limit">
+                    <img 
+                    src="/button-change-limit.svg"
+                    alt="icon button change limit">
+                </button>
             </div>
             <div class="stats__sum">
                 <span class="label">Summ:</span>
@@ -42,13 +63,16 @@
                 <span class="label">Status:</span>
                 <span class="js-status">All is GOOD</span>
             </div>
+
+            <button class="js-clear-button clear-button">Reset expenses</button>
         </div>
 
         <div class="history">
             <p class="history__title label">History</p>
-            <div class="js-history"></div>
+            <ol class="js-history-list history-list"></ol>
         </div>
 
+        
     </div>
 </div>
 

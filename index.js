@@ -1,100 +1,89 @@
+// Variables - string constant
 const LIMIT = 100;
 const CURRENCY = 'RUB';
 const STATUS_IN_LIMIT = 'All is GOOD';
 const STATUS_OUT_LIMIT = 'All is BAD';
-const STATUS_OUT_LIMIT_OF_NAME = 'status_red';
 
+// Variables - references for the html elements
 const inputNode = document.querySelector('.js-expense-input');
-const buttonNode = document.querySelector('.js-expense-button');
-const historyNode = document.querySelector('.js-history');
+const addButtonNode = document.querySelector('.js-expense-button');
+const clearButtonNode = document.querySelector('.js-clear-button ');
+const historyNode = document.querySelector('.js-history-list');
+const historyListNode = document.querySelector('.history-list');
 const sumNode = document.querySelector('.js-sum');
 const limitNode = document.querySelector('.js-limit');
 const statusNode = document.querySelector('.js-status');
+const categorySelectNode = document.querySelector('.js-category-select');
+//clearbutton
 
-const expenses = []
+let expenses = [] //change const on let
 
-init(expenses);
-
-inputNode.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        buttonNode.click();
-    }
-});
-
-buttonNode.addEventListener('click', function(){
-    
-    const expense = getExpanseFromUser();
-
-    if (!expense) {
-        return;
-    }
-    
-    trackExpanse(expense);
-
-    render(expenses);
-    
-});
-
-function init(expenses){
-    limitNode.innerText = `${LIMIT} ${CURRENCY}`;
-    statusNode.innerText = STATUS_IN_LIMIT;
-    sumNode.innerText = calculateExpanses(expenses);
-};
-
-function trackExpanse(expense){
-    expenses.push(expense);
-};
-
-function getExpanseFromUser(){
-    if (inputNode.value === ''){
-        return null;
-    }
-    const expense = parseInt(inputNode.value);
-
-    clearInput();
-
-    return expense;
-};
-
-function clearInput(){
-    inputNode.value = '';
-};
-
-function calculateExpanses(expenses){
+function getTotal(){
     let sum = 0;
-    expenses.forEach(element => {
-        sum += element;
+    expenses.forEach(expense => {
+        sum += expense.amount;
     });
     return sum;
 };
 
-function render(expenses){
-    const sum = calculateExpanses(expenses);
+function init(expenses){
+    limitNode.innerText = `${LIMIT}`;  //${CURRENCY}
+    statusNode.innerText = STATUS_IN_LIMIT;
+    sumNode.innerText = getTotal();
+};
 
-    renderHistory(expenses);
-    renderSum(sum);
-    renderStatus(sum);
+init(expenses);
 
+// Arrow function - reset input value
+const clearInput = () => {
+    inputNode.value = "";
 }
 
-function renderHistory(expenses){
-    let expensesListHTML = '';
+function addButtonHandler(){
 
-    expenses.forEach(element => {
-        const elementHTML = `<li>${element} ${CURRENCY}</li>`;
-        expensesListHTML += elementHTML;
-    });
+    const currentAmount = getExpanseFromUser();
+    if (!currentAmount) {
+        return;
+    } 
 
-    historyNode.innerHTML = `<ol>${expensesListHTML}</ol>`;
+    const currentCategory = getSelectedCategory();
+    if (currentCategory === "Choose the category") {
+        alert("Please choose the Category");
+        return;
+    } 
+
+    const newExpense = {
+        amount: currentAmount,
+        category: currentCategory
+    };
+ 
+    //add element in array
+    expenses.push(newExpense);
+
+    //render interface
+    render();
+
+    //reset input value
+    clearInput();
+}
+
+function getExpanseFromUser(){
+    return parseInt(inputNode.value);
 };
 
-function renderSum(sum){
-    sumNode.innerText = sum; 
+//get user his selected category
+function getSelectedCategory(){
+    return categorySelectNode.value;
 };
 
-function renderStatus(sum){
 
-    if (sum > LIMIT) {
+function renderStatus(){
+
+    const total = getTotal();
+    sumNode.innerText = total;
+    // limitNode.innerText = total; 
+
+    if (total > LIMIT) {
         statusNode.innerText = STATUS_OUT_LIMIT;
         statusNode.className = "stats_statusText_negative";
         // statusNode.classList.add(STATUS_OUT_LIMIT_OF_NAME);
@@ -104,3 +93,34 @@ function renderStatus(sum){
         // statusNode.classList.remove(STATUS_OUT_LIMIT_OF_NAME);
     }
 };
+
+function renderHistory(){
+    historyListNode.innerHTML = "";
+    expenses.forEach(expense =>{
+        const historyItem = document.createElement("li");
+        historyItem.className = "rub";
+        historyItem.innerText = `${expense.category} - ${expense.amount}`;
+
+        historyListNode.appendChild(historyItem);
+    });
+};
+
+function render(expenses){
+    renderStatus();
+    renderHistory();
+}
+
+const clearButtonHandler = () => {
+    expenses = [];
+    render();
+}
+
+// binding handler functions to a buttons
+addButtonNode.addEventListener('click', addButtonHandler);
+clearButtonNode.addEventListener('click', clearButtonHandler);
+
+inputNode.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        addButtonHandler();
+    }
+});
