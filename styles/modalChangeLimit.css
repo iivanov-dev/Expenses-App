@@ -1,0 +1,72 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 999;
+}
+
+.modal.is-open {
+  display: block;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+}
+
+.modal__dialog {
+  position: relative;
+  background: #fff;
+  width: min(92vw, 720px);
+  margin: 18vh auto 0;
+  border: 2px solid #1e90ff;
+  padding: 18px;
+}
+
+.modal__close {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  border: none;
+  background: none;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal__title {
+  margin: 0 40px 18px 0;
+  font-size: 18px;
+}
+
+.modal__row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.modal__input {
+  flex: 1;
+  min-width: 100px;
+}
+
+.btn-primary {
+  background: #1e90ff;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .modal__dialog {
+    margin-top: 12vh;
+  }
+
+  .modal__row {
+    gap: 10px;
+  }
+}

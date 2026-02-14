@@ -1,3 +1,5 @@
+import * as LimitModal from './modal.js';
+
 // Variables - string constant
 const CURRENCY = 'RUB';
 const STATUS_IN_LIMIT = 'All is GOOD';
@@ -152,20 +154,39 @@ const clearButtonHandler = () => {
 }
 
 function changeLimitHandler(){
-    const newLimit = prompt("New limit");
-    const newLimitValue = parseInt(newLimit);
 
-    if (!newLimitValue){
+    LimitModal.openLimitModal(LIMIT);
+
+    // const newLimit = prompt("New limit");
+    // const newLimitValue = parseInt(newLimit);
+
+    // if (!newLimitValue){
+    //     return;
+    // }
+
+    // limitNode.innerText = newLimitValue;
+
+    // LIMIT = newLimitValue;
+    // localStorage.setItem(STORAGE_LABEL_LIMIT, newLimitValue);
+
+    // render();
+}
+
+LimitModal.onLimitSave((newLimitValue, inputEl) => {
+    if (Number.isNaN(newLimitValue) || newLimitValue <= 0) {
+        alert('Please enter a valid limit');
         return;
     }
 
     limitNode.innerText = newLimitValue;
-
     LIMIT = newLimitValue;
     localStorage.setItem(STORAGE_LABEL_LIMIT, newLimitValue);
 
     render();
-}
+    inputEl.value = '';
+    LimitModal.closeLimitModal();
+});
+
 
 
 // binding handler functions to a buttons

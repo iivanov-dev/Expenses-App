@@ -1,3 +1,5 @@
+@import "../styles/modalChangeLimit.css";
+
 body{
     width: 100%;
     padding: 30px;
@@ -51,16 +53,18 @@ ol {
 }
 
 .expensesInput{
-    width: 484px;
+    width: 100%;
+    max-width: 484px;
 }
 
 .category-select{
-margin-top: 18px;
-width: 484px;
-height: 58px;
-padding-left: 22px;
-font-size: inherit;
-border: 1px solid #000;
+    margin-top: 18px;
+    width: 100%;
+    max-width: 484px;
+    height: 58px;
+    padding-left: 22px;
+    font-size: inherit;
+    border: 1px solid #000;
 }
 
 .moneyInput {
