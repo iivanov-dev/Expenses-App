@@ -1,5 +1,4 @@
 // Variables - string constant
-const LIMIT = 100;
 const CURRENCY = 'RUB';
 const STATUS_IN_LIMIT = 'All is GOOD';
 const STATUS_OUT_LIMIT = 'All is BAD';
@@ -8,15 +7,17 @@ const STATUS_OUT_LIMIT = 'All is BAD';
 const inputNode = document.querySelector('.js-expense-input');
 const addButtonNode = document.querySelector('.js-expense-button');
 const clearButtonNode = document.querySelector('.js-clear-button ');
+const changeLimitButtonNode = document.querySelector('.js-button-change-limit');
 const historyNode = document.querySelector('.js-history-list');
 const historyListNode = document.querySelector('.history-list');
 const sumNode = document.querySelector('.js-sum');
 const limitNode = document.querySelector('.js-limit');
 const statusNode = document.querySelector('.js-status');
 const categorySelectNode = document.querySelector('.js-category-select');
-//clearbutton
+
 
 let expenses = [] //change const on let
+let LIMIT = parseInt(limitNode.innerText);
 
 function getTotal(){
     let sum = 0;
@@ -27,7 +28,6 @@ function getTotal(){
 };
 
 function init(expenses){
-    limitNode.innerText = `${LIMIT}`;  //${CURRENCY}
     statusNode.innerText = STATUS_IN_LIMIT;
     sumNode.innerText = getTotal();
 };
@@ -80,8 +80,7 @@ function getSelectedCategory(){
 function renderStatus(){
 
     const total = getTotal();
-    sumNode.innerText = total;
-    // limitNode.innerText = total; 
+    sumNode.innerText = total; 
 
     if (total > LIMIT) {
         statusNode.innerText = STATUS_OUT_LIMIT;
@@ -115,9 +114,27 @@ const clearButtonHandler = () => {
     render();
 }
 
+function changeLimitHandler(){
+    const newLimit = prompt("New limit");
+    const newLimitValue = parseInt(newLimit);
+
+    if (!newLimitValue){
+        return;
+    }
+
+    limitNode.innerText = newLimitValue;
+
+    LIMIT = newLimitValue;
+
+    render();
+}
+
+
+
 // binding handler functions to a buttons
 addButtonNode.addEventListener('click', addButtonHandler);
 clearButtonNode.addEventListener('click', clearButtonHandler);
+changeLimitButtonNode.addEventListener('click', changeLimitHandler);
 
 inputNode.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
