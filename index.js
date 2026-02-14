@@ -2,11 +2,13 @@
 const CURRENCY = 'RUB';
 const STATUS_IN_LIMIT = 'All is GOOD';
 const STATUS_OUT_LIMIT = 'All is BAD';
+const STORAGE_LABEL_LIMIT = "limit";
+const STORAGE_LABEL_EXPENSES = "expenses";
 
 // Variables - references for the html elements
 const inputNode = document.querySelector('.js-expense-input');
 const addButtonNode = document.querySelector('.js-expense-button');
-const clearButtonNode = document.querySelector('.js-clear-button ');
+const clearButtonNode = document.querySelector('.js-clear-button');
 const changeLimitButtonNode = document.querySelector('.js-button-change-limit');
 const historyNode = document.querySelector('.js-history-list');
 const historyListNode = document.querySelector('.history-list');
@@ -15,9 +17,19 @@ const limitNode = document.querySelector('.js-limit');
 const statusNode = document.querySelector('.js-status');
 const categorySelectNode = document.querySelector('.js-category-select');
 
+// get limit from element HTML
+const expensesFromStorageString = localStorage.getItem(STORAGE_LABEL_EXPENSES);
+const expensesFromStorage = expensesFromStorageString
+  ? JSON.parse(expensesFromStorageString)
+  : null;
 
 let expenses = [] //change const on let
-let LIMIT = parseInt(limitNode.innerText);
+
+const defaultLimit = parseInt(limitNode.innerText);
+let LIMIT = defaultLimit;
+if (Array.isArray(expensesFromStorage)){
+   expenses = expensesFromStorage;
+}
 
 function getTotal(){
     let sum = 0;
@@ -27,22 +39,40 @@ function getTotal(){
     return sum;
 };
 
-function init(expenses){
-    statusNode.innerText = STATUS_IN_LIMIT;
+
+function init(){
     sumNode.innerText = getTotal();
+
+    const limitFromStorage = parseInt(localStorage.getItem(STORAGE_LABEL_LIMIT), 10);
+    if (Number.isNaN(limitFromStorage)) {
+    limitNode.innerText = defaultLimit;
+    LIMIT = defaultLimit;
+    return;
+    }
+    limitNode.innerText = limitFromStorage;
+    LIMIT = limitFromStorage;
+
 };
 
-init(expenses);
+init();
+render();
+
 
 // Arrow function - reset input value
 const clearInput = () => {
     inputNode.value = "";
 }
 
+function saveExpensesToStorage() {
+    const expensesString = JSON.stringify(expenses);
+    localStorage.setItem(STORAGE_LABEL_EXPENSES, expensesString);
+}
+
 function addButtonHandler(){
 
-    const currentAmount = getExpanseFromUser();
+    const currentAmount = getExpenseFromUser();
     if (!currentAmount) {
+        alert("Please write sum");
         return;
     } 
 
@@ -59,6 +89,7 @@ function addButtonHandler(){
  
     //add element in array
     expenses.push(newExpense);
+    saveExpensesToStorage();
 
     //render interface
     render();
@@ -67,7 +98,7 @@ function addButtonHandler(){
     clearInput();
 }
 
-function getExpanseFromUser(){
+function getExpenseFromUser(){
     return parseInt(inputNode.value);
 };
 
@@ -78,18 +109,20 @@ function getSelectedCategory(){
 
 
 function renderStatus(){
-
+// debugger
     const total = getTotal();
     sumNode.innerText = total; 
-
+// debugger
     if (total > LIMIT) {
         statusNode.innerText = STATUS_OUT_LIMIT;
-        statusNode.className = "stats_statusText_negative";
-        // statusNode.classList.add(STATUS_OUT_LIMIT_OF_NAME);
+        statusNode.classList.remove('stats_statusText_positive');
+        statusNode.classList.add('stats_statusText_negative');
+        //   statusNode.className = "stats_statusText_negative";
     } else {
         statusNode.innerText = STATUS_IN_LIMIT;
-        statusNode.className = "stats_statusText_positive";
-        // statusNode.classList.remove(STATUS_OUT_LIMIT_OF_NAME);
+        statusNode.classList.remove('stats_statusText_negative');
+        statusNode.classList.add('stats_statusText_positive');
+        //   statusNode.className = "stats_statusText_positive";
     }
 };
 
@@ -104,13 +137,17 @@ function renderHistory(){
     });
 };
 
-function render(expenses){
+function render(){
     renderStatus();
     renderHistory();
 }
 
 const clearButtonHandler = () => {
+    localStorage.removeItem(STORAGE_LABEL_LIMIT);
+    localStorage.removeItem(STORAGE_LABEL_EXPENSES);
     expenses = [];
+
+    init();
     render();
 }
 
@@ -125,10 +162,10 @@ function changeLimitHandler(){
     limitNode.innerText = newLimitValue;
 
     LIMIT = newLimitValue;
+    localStorage.setItem(STORAGE_LABEL_LIMIT, newLimitValue);
 
     render();
 }
-
 
 
 // binding handler functions to a buttons
